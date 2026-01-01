@@ -1,3 +1,51 @@
+import express from "express";
+import cors from "cors";
+import fetch from "node-fetch";
+import fs from "fs";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+const CHAT_FILE = "./chats.json";
+
+/* ensure chat file exists */
+if (!fs.existsSync(CHAT_FILE)) {
+  fs.writeFileSync(CHAT_FILE, JSON.stringify({}));
+}
+
+/* helper functions */
+function readChats() {
+  return JSON.parse(fs.readFileSync(CHAT_FILE, "utf8"));
+}
+
+function saveChats(data) {
+  fs.writeFileSync(CHAT_FILE, JSON.stringify(data, null, 2));
+}
+
+/* test route */
+app.get("/", (req, res) => {
+  res.send("DSR AI Backend is running");
+});
+
+/* login route */
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  if (!username) {
+    return res.status(400).json({ error: "Username required" });
+  }
+  res.json({ success: true });
+});
+
+/* history route */
+app.get("/history/:user", (req, res) => {
+  const chats = readChats();
+  res.json(chats[req.params.user] || []);
+});
+
+/* chat route (NO abortcontroller, NO hang) */
 app.post("/chat", async (req, res) => {
   try {
     const { user, message } = req.body;
@@ -11,9 +59,7 @@ app.post("/chat", async (req, res) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [
-            { parts: [{ text: message }] }
-          ]
+          contents: [{ parts: [{ text: message }] }]
         })
       }
     );
@@ -22,14 +68,24 @@ app.post("/chat", async (req, res) => {
 
     const reply =
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "AI busy or quota issue. Try again.";
+      "AI is busy right now. Please try again.";
+
+    const chats = readChats();
+    if (!chats[user]) chats[user] = [];
+    chats[user].push({ user: message, ai: reply });
+    saveChats(chats);
 
     res.json({ reply });
 
   } catch (err) {
     console.error("CHAT ERROR:", err);
     res.json({
-      reply: "AI service temporarily unavailable. Please try again."
+      reply: "AI service temporarily unavailable. Try again later."
     });
   }
+});
+
+/* start server */
+app.listen(PORT, () => {
+  console.log(`🔥 DSR AI Backend running on port ${PORT}`);
 });
