@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DSR Super Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body onload="checkAuth()">
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>DSR CMS</h2>
+    <button onclick="showSection('pages')">📄 Pages</button>
+    <button onclick="showSection('videos')">🎥 Videos</button>
+    <button onclick="showSection('text')">📝 Text</button>
+    <button onclick="showSection('search')">🔍 Search</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <!-- PAGES -->
+    <section id="pages" class="box">
+      <h3>Add Page</h3>
+      <input id="pageTitle" placeholder="Page Title">
+      <textarea id="pageContent" placeholder="Page Content"></textarea>
+      <button onclick="addPage()">Add Page</button>
+      <p id="pageStatus"></p>
+    </section>
+
+    <!-- VIDEOS -->
+    <section id="videos" class="box hidden">
+      <h3>Add Video</h3>
+      <input id="videoTitle" placeholder="Video Title">
+      <input id="videoURL" placeholder="Video URL">
+      <button onclick="addVideo()">Add Video</button>
+      <p id="videoStatus"></p>
+    </section>
+
+    <!-- TEXT -->
+    <section id="text" class="box hidden">
+      <h3>Update Homepage Text</h3>
+      <input id="homeTitle" placeholder="Homepage Title">
+      <input id="homeSub" placeholder="Subtitle">
+      <button onclick="saveText()">Save</button>
+      <p id="textStatus"></p>
+    </section>
+
+    <!-- SEARCH -->
+    <section id="search" class="box hidden">
+      <h3>Search Data</h3>
+      <input id="searchInput" placeholder="Search anything">
+      <button onclick="searchData()">Search</button>
+      <pre id="searchResult"></pre>
+    </section>
+
+  </main>
+</div>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>

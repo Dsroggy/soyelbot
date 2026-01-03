@@ -1,0 +1,50 @@
+*{box-sizing:border-box;font-family:Segoe UI}
+
+body{margin:0;background:#0f172a;color:white}
+
+/* LOGIN */
+.login-bg{
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#020617,#020617)
+}
+.login-card{
+  width:320px;padding:25px;border-radius:12px;
+  background:#020617;box-shadow:0 20px 50px #000
+}
+.login-card h1{text-align:center}
+.login-card p{text-align:center;color:#94a3b8}
+.login-card input,button{
+  width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none
+}
+.login-card input{background:#020617;color:white;border:1px solid #1e293b}
+.login-card button{background:#22c55e;font-weight:bold;cursor:pointer}
+
+/* DASHBOARD */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:220px;background:#020617;padding:15px
+}
+.sidebar button{
+  width:100%;margin:6px 0;padding:10px;
+  background:#020617;color:white;border:1px solid #1e293b;
+  cursor:pointer;border-radius:6px
+}
+.sidebar button:hover{background:#1e293b}
+
+.content{flex:1;padding:20px}
+.box{
+  background:#020617;padding:15px;border-radius:10px
+}
+.box input,.box textarea{
+  width:100%;margin:6px 0;padding:10px;
+  background:#020617;color:white;border:1px solid #1e293b
+}
+.box button{background:#22c55e;padding:10px;border:none;border-radius:6px}
+
+.hidden{display:none}
+
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;display:flex;flex-wrap:wrap}
+  .sidebar button{flex:1}
+}
