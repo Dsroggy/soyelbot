@@ -1,4 +1,3 @@
-/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +10,6 @@ html, body {
   height: 100%;
 }
 
-/* ===== LOGIN BACKGROUND ===== */
 body {
   display: flex;
   align-items: center;
@@ -20,7 +18,7 @@ body {
   color: white;
 }
 
-/* ===== LOGIN CARD ===== */
+/* LOGIN */
 .login-card {
   width: 100%;
   max-width: 360px;
@@ -29,15 +27,6 @@ body {
   background: linear-gradient(180deg, rgba(10,20,40,.95), rgba(2,6,23,.95));
   box-shadow: 0 25px 60px rgba(0,0,0,.7);
   text-align: center;
-}
-
-.login-card h1 {
-  margin-bottom: 6px;
-}
-
-.login-card p {
-  margin-bottom: 18px;
-  color: #9fb4ff;
 }
 
 .login-card input {
@@ -68,7 +57,7 @@ body {
   font-size: 13px;
 }
 
-/* ===== DASHBOARD ===== */
+/* DASHBOARD */
 .dashboard {
   display: flex;
   width: 100%;
