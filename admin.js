@@ -11,7 +11,7 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* 🔥 FIREBASE CONFIG (UNCHANGED) */
+/* 🔥 FIREBASE CONFIG — UNCHANGED */
 const firebaseConfig = {
   apiKey: "AIzaSyCWpp-y0OQ0RfT3ghf5zCnZGWgIzhUbudU",
   authDomain: "dsr-super-admin.firebaseapp.com",
@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ===== LOGIN ===== */
+/* ================= LOGIN ================= */
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
   if (!form) return;
@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("password");
   const errorBox = document.getElementById("error");
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
@@ -43,39 +43,43 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        window.location.href = "dashboard.html";
-      })
-      .catch(err => {
-        errorBox.innerText = err.message;
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // 🔥 WAIT COMPLETE → THEN REDIRECT
+      window.location.replace("dashboard.html");
+    } catch (err) {
+      errorBox.innerText = err.message;
+    }
   });
 });
 
-/* ===== DASHBOARD AUTH ===== */
+/* ================= DASHBOARD AUTH (FIXED) ================= */
 window.checkAuth = () => {
   onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "index.html";
+    if (user) {
+      // ✅ allow dashboard
+      console.log("Dashboard access:", user.email);
+    } else {
+      // ❌ only redirect if REALLY not logged in
+      window.location.replace("index.html");
     }
   });
 };
 
-/* ===== LOGOUT ===== */
+/* ================= LOGOUT ================= */
 window.logout = () => {
   signOut(auth).then(() => {
-    window.location.href = "index.html";
+    window.location.replace("index.html");
   });
 };
 
-/* ===== UI ===== */
+/* ================= UI ================= */
 window.showSection = id => {
   document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
 };
 
-/* ===== CMS ===== */
+/* ================= CMS ================= */
 window.addPage = async () => {
   await addDoc(collection(db, "pages"), {
     title: pageTitle.value,

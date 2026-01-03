@@ -100,3 +100,12 @@ textarea {
   padding: 10px;
   border-radius: 8px;
 }
+/* ===== DASHBOARD BODY OVERRIDE ===== */
+.dashboard {
+  align-items: stretch;
+}
+
+body:has(.dashboard) {
+  display: block;
+  background: #020617;
+}
